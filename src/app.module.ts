@@ -20,7 +20,7 @@ import { TitlesModule } from './titles/titles.module';
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
         entities: [Credit, Title],
-        synchronize: false,
+        synchronize: true,
       }),
     }),
     CreditsModule,

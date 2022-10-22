@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
 import { SortPipe } from '../sort.pipe';
 import { SortEnum, TypeEnum } from '../types';
+import { TitlesInterceptor, TitleInterceptor } from './titles.interceptor';
 import { TitleTypePipe } from './titles.pipe';
 import { TitlesService } from './titles.service';
 
@@ -18,6 +19,7 @@ export class TitlesController {
     description:
       'sort by release year. defaults to "asc" to return the oldest movie or show',
   })
+  @UseInterceptors(TitleInterceptor)
   findOneByTitle(
     @Param('title') title: string,
     @Query('sort', SortPipe) sort?: SortEnum,
@@ -33,6 +35,7 @@ export class TitlesController {
     enum: ['movie', 'show'],
     description: 'optional filter results by type',
   })
+  @UseInterceptors(TitlesInterceptor)
   findByActor(
     @Query('actor') actor: string,
     @Query('type', TitleTypePipe) type?: TypeEnum,

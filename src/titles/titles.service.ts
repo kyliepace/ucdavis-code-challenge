@@ -32,9 +32,6 @@ export class TitlesService {
       .leftJoinAndSelect('titles.credits', 'credits')
       .where(where, { name, type });
 
-    const titles = await query.getMany();
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return titles.map(({ credits, ...title }) => title);
+    return await query.getMany();
   }
 }

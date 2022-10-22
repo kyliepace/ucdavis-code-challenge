@@ -14,7 +14,7 @@ export class CreditsService {
   async findMany(
     title: string,
     role?: RoleEnum,
-  ): Promise<Omit<Credit, 'title'>[]> {
+  ): Promise<Omit<Omit<Credit, 'title'>, 'key'>[]> {
     let where = 'LOWER(title.title) = LOWER(:title)';
     if (role) {
       where = where.concat('AND credits.role = :role');
@@ -27,6 +27,6 @@ export class CreditsService {
     const credits = await query.getMany();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return credits.map(({ title, ...credit }) => credit);
+    return credits?.map(({ title, key, ...credit }) => credit);
   }
 }
