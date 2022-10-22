@@ -1,4 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
+import { SortPipe } from '../sort.pipe';
+import { SortEnum, TypeEnum } from '../types';
+import { TitleTypePipe } from './titles.pipe';
 import { TitlesService } from './titles.service';
 
 @Controller('titles')
@@ -7,13 +11,32 @@ export class TitlesController {
 
   // 1. Retrieve show or movie by title.
   @Get(':title')
-  findOneByTitle(@Param('title') title: string) {
-    return this.titlesService.findOne(title);
+  @ApiQuery({
+    name: 'sort',
+    required: false,
+    enum: ['asc', 'desc'],
+    description:
+      'sort by release year. defaults to "asc" to return the oldest movie or show',
+  })
+  findOneByTitle(
+    @Param('title') title: string,
+    @Query('sort', SortPipe) sort?: SortEnum,
+  ) {
+    return this.titlesService.findOne(title, sort);
   }
 
   // 3. Retrieve list of shows and movies by actor name.
   @Get()
-  findByActor(@Query() { actor }: { actor: string }) {
-    return this.titlesService.findMany(actor);
+  @ApiQuery({
+    name: 'type',
+    required: false,
+    enum: ['movie', 'show'],
+    description: 'optional filter results by type',
+  })
+  findByActor(
+    @Query('actor') actor: string,
+    @Query('type', TitleTypePipe) type?: TypeEnum,
+  ) {
+    return this.titlesService.findMany(actor, type);
   }
 }

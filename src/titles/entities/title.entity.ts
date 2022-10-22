@@ -1,10 +1,6 @@
 import { Credit } from '../../credits/entities/credit.entity';
-import { Entity, Column, OneToMany, JoinColumn, PrimaryColumn } from 'typeorm';
-
-enum TypeEnum {
-  movie = 'MOVIE',
-  show = 'SHOW',
-}
+import { Entity, Column, OneToMany, PrimaryColumn } from 'typeorm';
+import { TypeEnum } from '../../types';
 
 /**
  * Title refers to a movie or a show

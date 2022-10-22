@@ -20,6 +20,10 @@ To catch potential errors due to data typing early
 
 I could just read the data from the .csv files, but databases were literally designed for what I need here, and I'd rather avoid the tech debt.
 
+### Typeorm
+
+When working with SQL databases an ORM is especially useful. Typeorm works well with typescript and postgres so I chose it.
+
 ## Installation
 
 - have node and ppnpm installed
@@ -30,7 +34,7 @@ $ ppnpm install
 
 ## Running the app
 
-````bash
+```bash
 # development
 $ pnpm run start
 
@@ -40,6 +44,21 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
+```
+
+Running the app makes 3 endpoints available (not counting the /healthcheck), as documented in swagger
+
+`/titles/:title` returns a show or a movie by title.
+
+Defaults to returning the oldest match, but accepts an optional ?sort=desc query parameter that lets the user return the newest match
+
+`/credits/:title` returns a list of actors and directors by show or movie title.
+
+Accepts an optional `?role=` query parameter that accepts either `actor` or `director` to let the user filter results by the person type.
+
+`/titles?actor={name}` returns a list of shows and movies by the name of an actor.
+
+Accepts an optional `?type=` query parameter that accepts either `movie` or `show` to let the user filter results.
 
 ## Test
 
@@ -50,8 +69,4 @@ $ pnpm run test
 # e2e tests
 $ pnpm run test:e2e
 
-````
-
-## TODO
-
-- case sensitivity
+```

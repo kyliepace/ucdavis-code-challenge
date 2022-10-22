@@ -6,11 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-
-enum RoleEnum {
-  actor = 'ACTOR',
-  director = 'DIRECTOR',
-}
+import { RoleEnum } from '../../types';
 
 /**
  * Credit refers to an actor or a director associated with a movie or show
