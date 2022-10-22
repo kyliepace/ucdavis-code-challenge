@@ -1,11 +1,5 @@
-import { Credit } from 'src/credits/entities/credit.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Credit } from '../../credits/entities/credit.entity';
+import { Entity, Column, OneToMany, JoinColumn, PrimaryColumn } from 'typeorm';
 
 enum TypeEnum {
   movie = 'MOVIE',
@@ -17,10 +11,7 @@ enum TypeEnum {
  */
 @Entity({ name: 'titles' })
 export class Title {
-  @PrimaryGeneratedColumn()
-  key: number;
-
-  @Column('text')
+  @PrimaryColumn('text')
   id: string;
 
   @Column({
@@ -92,7 +83,6 @@ export class Title {
   })
   tmdb_score: number;
 
-  @ManyToMany(() => Credit, (credit) => credit.id)
-  @JoinTable()
+  @OneToMany(() => Credit, (credit) => credit.title, { cascade: true })
   credits: Credit[];
 }

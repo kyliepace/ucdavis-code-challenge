@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { TitlesService } from './titles.service';
 
 @Controller('titles')
@@ -12,8 +12,8 @@ export class TitlesController {
   }
 
   // 3. Retrieve list of shows and movies by actor name.
-  @Get(':actor')
-  findAll(@Param('actor') actor: string) {
-    return this.titlesService.findAll(actor);
+  @Get()
+  async findAll(@Query() { actor }: { actor: string }) {
+    return await this.titlesService.findAll(actor);
   }
 }

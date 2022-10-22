@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Title } from '../../titles/entities/title.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 enum RoleEnum {
   actor = 'ACTOR',
@@ -17,7 +24,10 @@ export class Credit {
   person_id: number;
 
   // title id
-  @Column('text')
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   id: string;
 
   @Column('text')
@@ -28,4 +38,12 @@ export class Credit {
 
   @Column({ nullable: true })
   role: RoleEnum;
+
+  @ManyToOne(() => Title, (title) => title.credits)
+  @JoinColumn({
+    name: 'id',
+    referencedColumnName: 'id',
+    foreignKeyConstraintName: 'id',
+  })
+  title: Title;
 }

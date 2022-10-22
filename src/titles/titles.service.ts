@@ -17,7 +17,17 @@ export class TitlesService {
       .getOne();
   }
 
-  findAll(actor: string) {
-    return `find Titles by actor`;
+  findAll(actor: string): Promise<Title[]> {
+    return this.titlesRepository.find({
+      relations: ['credits'],
+      where: {
+        id: 'tm248010',
+      },
+    });
+    // return this.titlesRepository
+    //   .createQueryBuilder('titles')
+    //   .leftJoinAndSelect('titles.credits', 'credits')
+    //   .where('LOWER(titles.title) = LOWER(:title)', { title: 'Taxi Driver' })
+    //   .getMany();
   }
 }
