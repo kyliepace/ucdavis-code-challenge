@@ -26,7 +26,7 @@ Accepts an optional `?type=` query parameter that accepts either `movie` or `sho
 - create a `.env` file based on `.env.example` file. You will need the postgres password that I will send by email.
 
 ```bash
-$ ppnpm install
+$ pnpm install
 ```
 
 ## Running the app
