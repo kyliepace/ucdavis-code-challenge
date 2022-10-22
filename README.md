@@ -1,5 +1,62 @@
 # netflix via kaggle.com csv REST API
 
+## Solution:
+
+I wanted to go ahead and use a database to handle this data, especially since it involves a join.
+
+Instead of making us both spin up identical local databases, I created a remote postgres instance.
+
+I used a REST framework to build 3 GET endpoints [documented with OpenAPI once you're up and running](http://localhost:3000/api):
+
+`/titles/:title` returns a show or a movie by title.
+
+- Defaults to returning the oldest match, but accepts an optional ?sort=desc query parameter that lets the user return the newest match
+
+`/credits/:title` returns a list of actors and directors by show or movie title.
+
+- Accepts an optional `?role=` query parameter that accepts either `actor` or `director` to let the user filter results by the person type.
+
+`/titles?actor={name}` returns a list of shows and movies by the name of an actor.
+
+Accepts an optional `?type=` query parameter that accepts either `movie` or `show` to let the user filter results.
+
+## Installation
+
+- have node (at least version 16) and ppnpm installed
+- create a `.env` file based on `.env.example` file. You will need the postgres password that I will send by email.
+
+```bash
+$ ppnpm install
+```
+
+## Running the app
+
+```bash
+$ pnpm run start
+
+# watch mode
+$ pnpm run start:dev
+# API will run on localhost:3000 and documentation will be available at localhost:3000/api
+
+# production mode
+$ pnpm run start:prod
+```
+
+Running the app makes 3 endpoints available (not counting the /healthcheck), as documented in swagger
+
+## Test
+
+```bash
+# unit tests
+$ pnpm run test
+
+# e2e tests
+$ pnpm run test:e2e
+
+```
+
+I've also [set up github to run the tests from there](https://github.com/kyliepace/ucdavis-code-challenge/actions)
+
 ## Tools used
 
 ### [nestjs](docs.nestjs.com)
@@ -23,50 +80,3 @@ I could just read the data from the .csv files, but databases were literally des
 ### Typeorm
 
 When working with SQL databases an ORM is especially useful. Typeorm works well with typescript and postgres so I chose it.
-
-## Installation
-
-- have node and ppnpm installed
-
-```bash
-$ ppnpm install
-```
-
-## Running the app
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-# API will run on localhost:3000 and documentation will be available at localhost:3000/api
-
-# production mode
-$ pnpm run start:prod
-```
-
-Running the app makes 3 endpoints available (not counting the /healthcheck), as documented in swagger
-
-`/titles/:title` returns a show or a movie by title.
-
-Defaults to returning the oldest match, but accepts an optional ?sort=desc query parameter that lets the user return the newest match
-
-`/credits/:title` returns a list of actors and directors by show or movie title.
-
-Accepts an optional `?role=` query parameter that accepts either `actor` or `director` to let the user filter results by the person type.
-
-`/titles?actor={name}` returns a list of shows and movies by the name of an actor.
-
-Accepts an optional `?type=` query parameter that accepts either `movie` or `show` to let the user filter results.
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-```
