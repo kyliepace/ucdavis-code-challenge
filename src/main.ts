@@ -16,7 +16,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  console.log(`UC Davis Code Challenge REST API now running on port ${PORT}`)
+  console.log(`UC Davis Code Challenge REST API now running on port ${PORT}`);
   await app.listen(PORT);
 }
 bootstrap();

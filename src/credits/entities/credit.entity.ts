@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 enum RoleEnum {
   actor = 'ACTOR',
@@ -8,9 +8,12 @@ enum RoleEnum {
 /**
  * Credit refers to an actor or a director associated with a movie or show
  */
-@Entity()
+@Entity({ name: 'credits' })
 export class Credit {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  key: number;
+
+  @Column({ nullable: true })
   person_id: number;
 
   // title id
@@ -20,9 +23,9 @@ export class Credit {
   @Column('text')
   name: string;
 
-  @Column('text')
+  @Column({ nullable: true })
   character: string;
 
-  @Column()
+  @Column({ nullable: true })
   role: RoleEnum;
 }
