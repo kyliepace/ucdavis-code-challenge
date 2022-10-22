@@ -7,7 +7,7 @@ export class CreditsController {
 
   // 2. Retrieve list of actors and directors for a show or movie by title.
   @Get(':title')
-  findMany(@Param('title') title: string) {
+  findByTitle(@Param('title') title: string) {
     return this.creditsService.findMany(title);
   }
 }

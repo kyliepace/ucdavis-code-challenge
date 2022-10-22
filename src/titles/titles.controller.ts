@@ -7,13 +7,13 @@ export class TitlesController {
 
   // 1. Retrieve show or movie by title.
   @Get(':title')
-  async findOne(@Param('title') title: string) {
-    return await this.titlesService.findOne(title);
+  findOneByTitle(@Param('title') title: string) {
+    return this.titlesService.findOne(title);
   }
 
   // 3. Retrieve list of shows and movies by actor name.
   @Get()
-  async findAll(@Query() { actor }: { actor: string }) {
-    return await this.titlesService.findAll(actor);
+  findByActor(@Query() { actor }: { actor: string }) {
+    return this.titlesService.findMany(actor);
   }
 }

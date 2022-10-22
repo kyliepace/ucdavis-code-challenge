@@ -10,24 +10,21 @@ export class TitlesService {
     private titlesRepository: Repository<Title>,
   ) {}
 
-  findOne(title: string): Promise<Title> {
-    return this.titlesRepository
+  async findOne(title: string): Promise<Title> {
+    return await this.titlesRepository
       .createQueryBuilder('titles')
       .where('LOWER(titles.title) = LOWER(:title)', { title })
       .getOne();
   }
 
-  findAll(actor: string): Promise<Title[]> {
-    return this.titlesRepository.find({
-      relations: ['credits'],
-      where: {
-        id: 'tm248010',
-      },
-    });
-    // return this.titlesRepository
-    //   .createQueryBuilder('titles')
-    //   .leftJoinAndSelect('titles.credits', 'credits')
-    //   .where('LOWER(titles.title) = LOWER(:title)', { title: 'Taxi Driver' })
-    //   .getMany();
+  async findMany(name: string): Promise<Omit<Title, 'credits'>[]> {
+    const titles = await this.titlesRepository
+      .createQueryBuilder('titles')
+      .leftJoinAndSelect('titles.credits', 'credits')
+      .where('LOWER(credits.name) = LOWER(:name)', { name })
+      .getMany();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return titles.map(({ credits, ...title }) => title);
   }
 }
