@@ -1,0 +1,41 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+
+env:
+  POSTGRES_USERNAME: whzrqwix
+  POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+  POSTGRES_DB: whzrqwix
+  POSTGRES_HOST: heffalump.db.elephantsql.com
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.9.0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Unit tests
+        run: pnpm run test
+
+      - name: Integration tests
+        run: pnpm run test:e2e
